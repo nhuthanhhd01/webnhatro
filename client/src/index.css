@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+    .list-room {
+        @apply 
+            max-w-[1200px] mx-auto 
+            my-0 mb-[100px]
+    }
+
+    .room {
+        @apply 
+            bg-white text-gray-700
+            w-96 min-h-[10rem]
+            shadow-lg rounded-md overflow-hidden
+            cursor-pointer 
+            hover:shadow-2xl transition-shadow
+            mb-9
+    }
+w
+    .badge {
+        @apply
+            px-3 py-1 rounded-full text-xs bg-gray-100
+    }
+
+    .product-title {
+        @apply
+            font-semibold text-2xl
+            overflow-ellipsis overflow-hidden whitespace-nowrap
+    }
+}

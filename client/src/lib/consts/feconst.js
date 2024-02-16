@@ -1,0 +1,2 @@
+export const districts = [" Quận Ba Đình", " Quận Cầu Giấy", "Quận Đống Đa", "Quận Hai Bà Trưng", "Quận Hoàn Kiếm", "Quận Thanh Xuân",
+ "Quận Hoàng Mai", "Quận Long Biên", "Quận Hà Đông", "Quận Tây Hồ", "Quận Nam Từ Liêm", "Quận Bắc Từ Liêm"]

@@ -70,7 +70,7 @@ function RoomDetail() {
     <Layout>
         <div className='w-[1200px] mx-auto mt-10 flex items-start'>
             <div className='mr-5 w-[46%]'>
-                <img className='h-full object-cover' src={`/api/room/product-photo/${rid}`} alt="" />
+                <img className='h-[550px] w-full object-cover' src={`/api/room/product-photo/${rid}`} alt="" />
             </div>
 
             <div className='w-5/12'>

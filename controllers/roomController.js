@@ -68,7 +68,7 @@ export const createRoomController = async (req, res) => {
 }
 
 // Get all Rooms
-export const getRoomController = async (req, res) => {
+export const getRoomsController = async (req, res) => {
     try {
         const listRooms = []
         await userModel.find({}).then(function(users){
@@ -79,6 +79,48 @@ export const getRoomController = async (req, res) => {
             res.status(200).send(listRooms);
         });
 
+    } catch (error) {
+        console.log(error); 
+        res.status(400).send({
+            success: false,
+            error,
+            message: "Error in get All Room"
+        });
+    }
+}
+
+// Get info of a room ( Room Detail )
+export const getRoomController = async (req, res) => {
+    try {
+        const data = await userModel.findOne({"rooms._id": req.params.rid});
+        const roomArray = []
+        data.rooms.map(room => {
+            if(room._id == req.params.rid) (
+                roomArray.push(room)
+            )
+        })
+        res.status(200).json(roomArray)
+    } catch (error) {
+        console.log(error); 
+        res.status(400).send({
+            success: false,
+            error,
+            message: "Error in get All Room"
+        });
+    }
+}
+
+// Get info of a room ( Room Detail )
+export const getRoomOwnerController = async (req, res) => {
+    try {
+        const data = await userModel.findOne({"rooms._id": req.params.rid});
+        const userData = {
+            name: data.name,
+            email: data.email,
+            phone: data.phone,
+            address: data.address,
+        }
+        res.status(200).json(userData)
     } catch (error) {
         console.log(error); 
         res.status(400).send({
@@ -253,3 +295,34 @@ export const updateRoomController = async (req, res) => {
         })   
     }
 }
+
+// get photo
+export const productPhotoController = async (req, res) => {
+    try {
+        const email = req.params.email
+        const rid = req.params.rid
+        await userModel.findOne({ email },{
+            'rooms': {$elemMatch: {_id: rid}
+        }})
+        .then((data) => {
+            if (data) {
+                const room = data
+                if (room.photo) {
+                    res.set("Content-type", product.photo.contentType);
+                    return res.status(200).send(room.photo.data);
+                  }
+            } else {
+                console.log("Can not find room Available");
+                res.json({msg:"Room name not found."})
+            }
+        })
+        .catch((err) => console.log(err))
+    } catch (error) {
+      console.log(error);
+      res.status(500).send({
+        success: false,
+        message: "Erorr while getting photo",
+        error,
+      });
+    }
+  };

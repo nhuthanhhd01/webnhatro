@@ -28,6 +28,9 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    fbLink: {
+      type: String,
+    },
     role: {
       type: Number,
       default: 0,
@@ -63,7 +66,24 @@ const userSchema = new mongoose.Schema(
             photo: {
               data:Buffer,
               contentType: String
-            }
+            },
+            reviews: [
+              {
+                type: new mongoose.Schema(
+                  {
+                    reviewUser: {
+                      type: String
+                    },
+                    reviewContent: {
+                      type: String
+                    },
+                    reviewStar: {
+                      type: Number
+                    }
+                  }
+              )}
+        
+            ]
           },
           { timestamps: true }
         )

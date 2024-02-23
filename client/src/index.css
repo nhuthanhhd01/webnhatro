@@ -6,7 +6,7 @@
     .list-room {
         @apply 
             max-w-[1200px] mx-auto 
-            my-0 mb-[100px]
+            my-0 
     }
 
     .room {

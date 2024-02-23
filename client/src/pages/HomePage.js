@@ -4,7 +4,9 @@ import { useAuth } from '../context/auth'
 import RoomCard from '../components/RoomCard';
 import { districts } from '../lib/consts/feconst';
 import axios from 'axios';
+import classNames from 'classnames';
 
+const linkNavPage = 'mx-4 text-sm sm:text-lg font-medium cursor-pointer hover:text-[#0FB45F] text-blue-600'
 
 function HomePage() {
   const [auth, setAuth] = useAuth();
@@ -23,7 +25,7 @@ function HomePage() {
   //method
   useEffect(() => {
     getAllRooms();
-  }, [])
+  }, [page])
   // const rooms = [
   //   {
   //     id: 1,
@@ -123,6 +125,27 @@ function HomePage() {
           ))}
         </div>
       </div>
+
+      {/* Navigation Page  */}  
+      <div className='flex mx-auto mb-[100px] justify-center'>
+              <a 
+                className={classNames(page === 1 ? '!text-gray-600' : '', linkNavPage)}
+                onClick={() => {
+                  if (page >= 2) {
+                    setPage(page - 1)
+                  }
+                }}
+              >
+                Trang trước
+              </a>
+              <p className='mx-2 text-sm sm:text-lg font-medium underline'>Trang {page}</p>
+              <a 
+                className={classNames(page > 2 ? '' : '', linkNavPage)}
+                onClick={() => setPage(page + 1)}
+              >
+                Trang sau
+              </a>
+           </div>
 
       {/* About  */}
       <div className='bg-[#0FB45F] flex'>

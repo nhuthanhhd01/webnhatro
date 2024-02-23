@@ -341,7 +341,58 @@ export const productPhotoController = async (req, res) => {
  // add review to room
  export const addReviewController = async (req, res) => {
     try {
-        
+        const email = req.params.email
+        const rid = req.params.rid
+        const { name, content, star } = req.fields;
+        const newReview = {
+            reviewUser: name,
+            reviewContent: content,
+            reviewStar: star
+        }
+        await userModel.updateOne(
+            { email: email, "rooms._id": rid},
+            {
+                '$push': {
+                   "rooms.$[].reviews": newReview
+                }
+            }
+        )
+        res.status(201).send({
+            success: true,
+            message: "Add Review Successfully",
+          });
+    } catch (error) {
+      console.log(error);
+      res.status(500).send({
+        success: false,
+        message: "Erorr while add review to room",
+        error,
+      });
+    }
+  };
+
+  // get review of room
+ export const getReviewsController = async (req, res) => {
+    try {
+        const email = req.params.email
+        const rid = req.params.rid
+        // const test = await userModel.findOne({"rooms._id": req.params.rid});
+        // res.status(200).json(test)
+        await userModel.findOne({ email },{
+            'rooms': {$elemMatch: {_id: rid}
+        }})
+        .then((data) => {
+            if (data) {
+                console.log("Room found");
+                const reviews = data.rooms[0].reviews
+                res.json(reviews)
+    
+            } else {
+                console.log("Can not find room Available");
+                res.json({msg:"Room name not found."})
+            }
+        })
+        .catch((err) => console.log(err))
     } catch (error) {
       console.log(error);
       res.status(500).send({

@@ -4,6 +4,7 @@ import {
     addReviewController,
     createRoomController, 
     deleteRoomController, 
+    getReviewsController, 
     getRoomController, 
     getRoomOwnerController, 
     getRoomsController,
@@ -47,6 +48,7 @@ router.get("/product-photo/:rid", productPhotoController);
 
 // REVIEWS
 // Add review
-router.put("/add-review/:email/:rid", formidable(), addReviewController)
-
+router.put("/add-review/:email/:rid",requireSignIn, formidable(), addReviewController)
+// Get review
+router.get("/get-reviews/:email/:rid", getReviewsController)
 export default router;

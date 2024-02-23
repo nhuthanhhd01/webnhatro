@@ -8,8 +8,13 @@ import { BsTelephoneFill } from "react-icons/bs";
 import { FaMessage } from "react-icons/fa6";
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
+import { MdOutlineRateReview } from "react-icons/md";
+import { useNavigate } from 'react-router-dom'
+import { FaStar } from 'react-icons/fa';
+
 
 function RoomDetail() {
+  const navigate = useNavigate()
   // Room Detail
   const [title, setTitle] = useState()
   const [address, setAddress] = useState()
@@ -18,6 +23,8 @@ function RoomDetail() {
   const [elecPrice, setElecPrice] = useState()
   const [waterPrice, setWaterPrice] = useState()
   const { rid } = useParams();
+    // Get Reviews
+  const [reviews, setReviews] = useState([])
 
   // User Data
   const [ownerName, setOwnerName] = useState()
@@ -28,6 +35,7 @@ function RoomDetail() {
   useEffect(() => {
     if (rid) getDataRoomDetail(rid);
     if (rid) getDataRoomOwner(rid);
+
   }, [rid])
 
   // Get data user owner
@@ -37,9 +45,16 @@ function RoomDetail() {
             `/api/room/get-room-owner/${rid}`
         );
         const roomOwner = dataRoomOwner.data
+        const email = roomOwner.email
+        console.log(email)
         setOwnerName(roomOwner.name)
         setOwnerPhone(roomOwner.phone)
-        setOwnerEmail(roomOwner.email)
+        setOwnerEmail(email)
+        const reviewsData = await axios.get(
+          `/api/room/get-reviews/${email}/${rid}`
+        );
+       setReviews(reviewsData.data)
+       console.log(reviewsData.data)
     } catch (error) {
       console.log(error);
     }
@@ -63,7 +78,22 @@ function RoomDetail() {
     }
   }
 
-  // Get room photo
+  // // Get reviews
+  // const getReviews = async () => {
+  //     try {
+  //         const reviewsData = await axios.get(
+  //             `/api/room/get-reviews/${ownerPhone}/${rid}`
+  //         );
+  //         setReviews(reviewsData)
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }
+
+  // handle add review
+  const handleAddReview = () => {
+    navigate(`/review/${ownerEmail}/${rid}`)
+  }
 
 
   return (
@@ -125,6 +155,65 @@ function RoomDetail() {
                 </div>
               </div>
             </div>
+        </div>
+
+        {/* Reviews */}
+        <div className='w-[1200px] mx-auto'>
+          <div className='flex'>
+            <MdOutlineRateReview size={24}/>
+            <h1 className='text-xl font-medium leading-normal mb-5 ml-2'>Đánh giá của phòng trọ</h1>
+          </div>
+
+          {/* List Reviews */}
+          {reviews.map((review) => (
+            <div class="flex items-center space-x-2">
+              <div class="flex flex-shrink-0 self-start cursor-pointer">
+                <img src="https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg" alt="" class="h-12 w-12 object-fill rounded-full"/>
+              </div>
+
+              <div className="flex space-x-2">
+                <div className="block">
+                  <div className="bg-gray-100 w-auto rounded-xl px-2 pb-2">
+                    <div className="font-medium ">
+                      <a href="#" class="hover:underline text-lg">
+                        <small>{review.reviewUser}</small>
+                      </a>
+                    </div>
+
+                    <div className='flex '>
+                      {
+                        [...Array(5)].map((star, index) => {
+                          const currentRate = index + 1
+                          return (
+                            <>
+                              <label>
+                                <FaStar 
+                                  size={20} 
+                                  color= {currentRate <= review.reviewStar ? '#F7BE00' : 'grey '}
+                                />
+                              </label>
+                            </>
+                          )
+                        })
+                      }
+                    </div>
+                     
+                    <div className="text-sm mt-1">
+                      {review.reviewContent}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+             
+          ))}
+          {/* Button add review */}
+          <button 
+            className='bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-full mt-4'
+            onClick={handleAddReview}
+          >
+            Thêm bình luận của bạn
+          </button>
         </div>
     </Layout>
         

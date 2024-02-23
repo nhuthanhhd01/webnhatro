@@ -63,6 +63,9 @@ const userSchema = new mongoose.Schema(
               type: String,
               required: true,
             },
+            tag: {
+              type: String,
+            },
             photo: {
               data:Buffer,
               contentType: String

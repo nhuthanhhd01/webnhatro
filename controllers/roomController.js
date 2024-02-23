@@ -3,7 +3,7 @@ import fs from "fs";
 
 export const createRoomController = async (req, res) => {
     try {
-        const { title, address, price, waterPrice, elecPrice, description } = req.fields;
+        const { title, tag, address, price, waterPrice, elecPrice, description } = req.fields;
         const { photo } = req.files;
         // validation
         switch (true) {
@@ -30,6 +30,7 @@ export const createRoomController = async (req, res) => {
             waterPrice: waterPrice,
             elecPrice: elecPrice,
             description: description,
+            tag: tag,
             photo: {
                 data: fs.readFileSync(photo.path),
                 contentType: photo.type
@@ -162,7 +163,7 @@ export const getSingleRoomController = async (req, res) => {
     }
 }
 
-// Get room list base on page
+// Get room list base on home page
 export const roomListController = async (req, res) => {
     try {
         const perPage = 6;
@@ -174,6 +175,7 @@ export const roomListController = async (req, res) => {
                 const room = user.rooms;
                 listRooms.push(...room);
             })
+            // res.status(200).send(listRooms);
             for ( let i = (page - 1) * perPage; i <= perPage * page - 1; i++ ) {
                 if (listRooms[i]) {
                     outputRooms.push(listRooms[i]);
@@ -181,6 +183,7 @@ export const roomListController = async (req, res) => {
             }
             res.status(200).send(outputRooms);
         });
+
     } catch (error) {
         console.log(error);
         res.status(400).send({
@@ -245,7 +248,7 @@ export const updateRoomController = async (req, res) => {
     try {
         // const email = req.params.email
         const rid = req.params.rid
-        const { title, address, price, waterPrice, elecPrice, description } = req.fields;
+        const { title, tag, address, price, waterPrice, elecPrice, description } = req.fields;
         const { photo } = req.files;
         // validation
         switch (true) {
@@ -279,6 +282,7 @@ export const updateRoomController = async (req, res) => {
                     'rooms.$.waterPrice': waterPrice, 
                     'rooms.$.elecPrice': elecPrice, 
                     'rooms.$.description': description, 
+                    'rooms.$.tag': tag, 
                     'rooms.$.photo': photoData, 
                 }
             }
@@ -299,24 +303,31 @@ export const updateRoomController = async (req, res) => {
 // get photo
 export const productPhotoController = async (req, res) => {
     try {
-        const email = req.params.email
+        // const email = req.params.email
+        // const rid = req.params.rid
+        // await userModel.findOne({ email },{
+        //     'rooms': {$elemMatch: {_id: rid}
+        // }})
+        // .then((data) => {
+        //     if (data) {
+        //         const room = data.rooms[0]
+        //         res.set("Content-type", room.photo.contentType);
+        //         res.status(200).send(room.photo.data);
+        //     } else {
+        //         console.log("Can not find room Available");
+        //         res.json({msg:"Room name not found."})
+        //     }
+        // })
+        // .catch((err) => console.log(err))
         const rid = req.params.rid
-        await userModel.findOne({ email },{
-            'rooms': {$elemMatch: {_id: rid}
-        }})
-        .then((data) => {
-            if (data) {
-                const room = data
-                if (room.photo) {
-                    res.set("Content-type", product.photo.contentType);
-                    return res.status(200).send(room.photo.data);
-                  }
-            } else {
-                console.log("Can not find room Available");
-                res.json({msg:"Room name not found."})
-            }
-        })
-        .catch((err) => console.log(err))
+        const data = await userModel.findOne({"rooms._id": rid});
+        const rooms = data.rooms
+        let room = {}
+        for (let i = 0; i < rooms.length; i++) {
+            if (rooms[i]._id.toString() === rid.toString()) room = rooms[i]
+        }
+        res.set("Content-type", room.photo.contentType);
+        res.status(200).send(room.photo.data);
     } catch (error) {
       console.log(error);
       res.status(500).send({
@@ -326,3 +337,5 @@ export const productPhotoController = async (req, res) => {
       });
     }
   };
+
+ 

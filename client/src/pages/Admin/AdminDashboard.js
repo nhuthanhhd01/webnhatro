@@ -8,7 +8,7 @@ function AdminDashboard() {
     <Layout>
       <div className='flex flex-row bg-neutral-100 h-screen w-screen overflow-hidden'>
         <AdminMenu />
-        <div className='p-4'>
+        <div className=''>
           <div className='container px-6 py-8 mx-auto w-[1500px]'>
             <div class="flex flex-wrap -mx-6">
                             <div class="w-full px-6 sm:w-1/2 xl:w-1/3">

@@ -8,8 +8,11 @@ import axios from 'axios'
 import { useAuth } from '../../context/auth'
 
 function NewRoom() {
+    const districts = [" Quận Ba Đình", " Quận Cầu Giấy", "Quận Đống Đa", "Quận Hai Bà Trưng", "Quận Hoàn Kiếm", "Quận Thanh Xuân",
+ "Quận Hoàng Mai", "Quận Long Biên", "Quận Hà Đông", "Quận Tây Hồ", "Quận Nam Từ Liêm", "Quận Bắc Từ Liêm"]
     const navigate = useNavigate()
     const [title, setTitle] = useState('')
+    const [tag, setTag] = useState()
     const [address, setAddress] = useState('')
     const [price, setPrice] = useState('')
     const [waterPrice, setWaterPrice] = useState('')
@@ -29,6 +32,7 @@ function NewRoom() {
         try {
             const roomData = new FormData()
             roomData.append("title", title)
+            roomData.append("tag", tag)
             roomData.append("address", address)
             roomData.append("price", price)
             roomData.append("waterPrice", waterPrice)
@@ -50,10 +54,15 @@ function NewRoom() {
             toast.error("Something went wrong")
         }
     }
+
+    //handle select change
+    const handleTagChange = (e) => (
+        setTag(e.target.value)
+    )
     
   return (
     <Layout title="Đăng phòng trọ mới">
-      <div className='flex flex-row bg-neutral-100 h-max w-screen overflow-hidden'>
+      <div className='flex flex-row bg-neutral-100 h-full w-screen overflow-hidden'>
         <UserMenu />
         <div className='p-4 '>
             <form>
@@ -69,6 +78,20 @@ function NewRoom() {
                             onChange={(e) => setTitle(e.target.value)}
                             class="block w-96 rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
+                    </div>
+                </div>
+
+                {/* Tag */}
+                <div className="sm:col-span-3 pb-2">
+                    <label className="block text-sm font-medium leading-6 text-gray-900">Địa chỉ của phòng trọ</label>
+                    <div className="mt-2">
+                    < select
+                        onChange={e => handleTagChange(e)}
+                        className="block w-96 rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" >
+                        {
+                            districts.map((district, index) => <option key={index} value={district}>{district}</option>)
+                        }
+                        </select >
                     </div>
                 </div>
 

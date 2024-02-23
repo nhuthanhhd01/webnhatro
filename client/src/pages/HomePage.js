@@ -1,56 +1,72 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Layout from '../components/Layout/Layout'
 import { useAuth } from '../context/auth'
 import RoomCard from '../components/RoomCard';
 import { districts } from '../lib/consts/feconst';
+import axios from 'axios';
 
 
 function HomePage() {
   const [auth, setAuth] = useAuth();
   const [page, setPage] = useState(1);
-  const rooms = [
-    {
-      id: 1,
-      title: "Phòng trọ Thanh Xuân",
-      address: "14 Thanh Xuân Trung",
-      price: "4000000",
-      waterPrice: "30000",
-      elecPrice: "4000",
-      description: "Phòng trọ mới siêu hiện đại"
-    },
-    {
-      id: 2,
-      title: "Phòng trọ Hoàng Mai",
-      address: "88/61 Giáp Nhị",
-      price: "3500000",
-      waterPrice: "30000",
-      elecPrice: "4000",
-      description: "Phòng trọ đẹp giá hợp lý"
-    },
-    {
-      id: 3,
-      title: "Phòng trọ Ba Đình",
-      address: "Giáp Nhị",
-      price: "4800000",
-      waterPrice: "30000",
-      elecPrice: "4500",
-      description: "Phòng trọ mới, full đồ"
-    },
-    {
-      id: 4,
-      title: "Phòng trọ Hà Đông",
-      address: "2 Quang Trung",
-      price: "2800000",
-      waterPrice: "30000",
-      elecPrice: "4000",
-      description: "Phòng trọ giá rẻ"
+  const [rooms, setRooms] = useState([])
+
+  const getAllRooms = async () => {
+    try {
+      const { data } = await axios.get(`/api/room/room-list/${page}`)
+      setRooms(data)
+    } catch (error) {
+      console.log(error);
     }
-  ]
+  }
+
+  //method
+  useEffect(() => {
+    getAllRooms();
+  }, [])
+  // const rooms = [
+  //   {
+  //     id: 1,
+  //     title: "Phòng trọ Thanh Xuân",
+  //     address: "14 Thanh Xuân Trung",
+  //     price: "4000000",
+  //     waterPrice: "30000",
+  //     elecPrice: "4000",
+  //     description: "Phòng trọ mới siêu hiện đại"
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Phòng trọ Hoàng Mai",
+  //     address: "88/61 Giáp Nhị",
+  //     price: "3500000",
+  //     waterPrice: "30000",
+  //     elecPrice: "4000",
+  //     description: "Phòng trọ đẹp giá hợp lý"
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Phòng trọ Ba Đình",
+  //     address: "Giáp Nhị",
+  //     price: "4800000",
+  //     waterPrice: "30000",
+  //     elecPrice: "4500",
+  //     description: "Phòng trọ mới, full đồ"
+  //   },
+  //   {
+  //     id: 4,
+  //     title: "Phòng trọ Hà Đông",
+  //     address: "2 Quang Trung",
+  //     price: "2800000",
+  //     waterPrice: "30000",
+  //     elecPrice: "4000",
+  //     description: "Phòng trọ giá rẻ"
+  //   }
+  // ]
 
   return (
     <Layout title="Trang chủ">
       {/* Banner */}
-      <div className='mb-28 static'>
+      <div className='mb-28 static relative'>
         <img className='w-full h-full bg-no-repeat bg-top bg-cover object-cover' src="/images/homepage.jpg" alt="" />
         {/* Box Filter */}
         <div className='absolute bottom-80 left-60 bg-[#140C40] pt-[47px] pl-[50px] w-[950px]'>
@@ -133,7 +149,6 @@ function HomePage() {
           </div>
         </div>
       </div>
-
     </Layout>
   )
 }

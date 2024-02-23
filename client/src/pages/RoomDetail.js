@@ -22,6 +22,7 @@ function RoomDetail() {
   // User Data
   const [ownerName, setOwnerName] = useState()
   const [ownerPhone, setOwnerPhone] = useState()
+  const [ownerEmail, setOwnerEmail] = useState()
 
   //method
   useEffect(() => {
@@ -38,6 +39,7 @@ function RoomDetail() {
         const roomOwner = dataRoomOwner.data
         setOwnerName(roomOwner.name)
         setOwnerPhone(roomOwner.phone)
+        setOwnerEmail(roomOwner.email)
     } catch (error) {
       console.log(error);
     }
@@ -61,12 +63,14 @@ function RoomDetail() {
     }
   }
 
+  // Get room photo
+
 
   return (
     <Layout>
         <div className='w-[1200px] mx-auto mt-10 flex items-start'>
             <div className='mr-5 w-[46%]'>
-                <img className='h-full object-cover' src='/images/room.jpg' alt="" />
+                <img className='h-full object-cover' src={`/api/room/product-photo/${rid}`} alt="" />
             </div>
 
             <div className='w-5/12'>

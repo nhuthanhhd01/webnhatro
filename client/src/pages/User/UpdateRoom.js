@@ -8,9 +8,12 @@ import axios from 'axios'
 import { useAuth } from '../../context/auth'
 
 function UpdateRoom() {
+    const districts = [" Quận Ba Đình", " Quận Cầu Giấy", "Quận Đống Đa", "Quận Hai Bà Trưng", "Quận Hoàn Kiếm", "Quận Thanh Xuân",
+ "Quận Hoàng Mai", "Quận Long Biên", "Quận Hà Đông", "Quận Tây Hồ", "Quận Nam Từ Liêm", "Quận Bắc Từ Liêm"]
     const navigate = useNavigate()
     const [room, setRoom] = useState()
     const [title, setTitle] = useState()
+    const [tag, setTag] = useState()
     const [address, setAddress] = useState()
     const [price, setPrice] = useState()
     const [waterPrice, setWaterPrice] = useState()
@@ -37,6 +40,7 @@ function UpdateRoom() {
           setWaterPrice(data.rooms[0].waterPrice)
           setElecPrice(data.rooms[0].elecPrice)
           setDescription(data.rooms[0].description)
+          setTag(data.rooms[0].tag)
           setOldPhoto(data.rooms[0].photo)
         } catch (error) {
           console.log(error);
@@ -65,6 +69,7 @@ function UpdateRoom() {
             roomData.append("waterPrice", waterPrice)
             roomData.append("elecPrice", elecPrice)
             roomData.append("description", description)
+            roomData.append("tag", tag)
             if(!photo) {
                 roomData.append("photo", oldPhoto)
             }
@@ -86,10 +91,15 @@ function UpdateRoom() {
             toast.error("Something went wrong")
         }
     }
+
+    //handle select change
+    const handleTagChange = () => (
+        console.log('Change')
+    )
     
   return (
     <Layout title="Đăng phòng trọ mới">
-      <div className='flex flex-row bg-neutral-100 h-max w-screen overflow-hidden'>
+      <div className='flex flex-row bg-neutral-100 h-full w-screen overflow-hidden'>
         <UserMenu />
         <div className='p-4 '>
             <form>
@@ -105,6 +115,25 @@ function UpdateRoom() {
                             onChange={(e) => setTitle(e.target.value)}
                             className="block w-96 rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                         />
+                    </div>
+                </div>
+
+                {/* Tag */}
+                <div className="sm:col-span-3 pb-2">
+                    <label className="block text-sm font-medium leading-6 text-gray-900">Địa chỉ của phòng trọ</label>
+                    <div className="mt-2">
+                    < select
+                        onChange={e => handleTagChange(e)}
+                        className="block w-96 rounded-md border-0 py-1.5 px-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" >
+                        {
+                            districts.map((district, index) => (
+                                (tag === district 
+                                 ? <option selected value={index}>{district}</option>
+                                 : <option value={index}>{district}</option>
+                                )
+                            ))
+                        }
+                        </select >
                     </div>
                 </div>
 

@@ -8,7 +8,7 @@ function Dashboard() {
     <Layout title={"Dashboard"}>
       <div className='flex flex-row bg-neutral-100 h-screen w-screen overflow-hidden'>
         <UserMenu />
-        <div className='p-4'>
+        <div className=''>
             <div class="container px-6 py-8 mx-auto w-[1500px]">
                     <h3 class="text-3xl font-medium text-gray-700">Dashboard</h3>
     

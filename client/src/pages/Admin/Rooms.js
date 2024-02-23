@@ -19,6 +19,7 @@ function Rooms() {
   //method
   useEffect(() => {
     getAllRooms();
+    console.log(rooms)
   }, [])
 
   return (

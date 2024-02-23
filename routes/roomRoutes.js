@@ -1,6 +1,7 @@
 import express from "express";
 import { isAdmin, requireSignIn } from "../middlewares/authMiddleware.js";
 import { 
+    addReviewController,
     createRoomController, 
     deleteRoomController, 
     getRoomController, 
@@ -43,5 +44,9 @@ router.get("/get-room-detail/:rid", getRoomController)
 router.get("/get-room-owner/:rid", getRoomOwnerController)
 // get photo
 router.get("/product-photo/:rid", productPhotoController);
+
+// REVIEWS
+// Add review
+router.put("/add-review/:email/:rid", formidable(), addReviewController)
 
 export default router;

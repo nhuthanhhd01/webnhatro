@@ -338,4 +338,16 @@ export const productPhotoController = async (req, res) => {
     }
   };
 
- 
+ // add review to room
+ export const addReviewController = async (req, res) => {
+    try {
+        
+    } catch (error) {
+      console.log(error);
+      res.status(500).send({
+        success: false,
+        message: "Erorr while add review to room",
+        error,
+      });
+    }
+  };

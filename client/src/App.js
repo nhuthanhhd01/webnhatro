@@ -15,6 +15,7 @@ import UserInfo from './pages/User/UserInfo';
 import NewRoom from './pages/User/NewRoom';
 import UpdateRoom from './pages/User/UpdateRoom';
 import RoomDetail from './pages/RoomDetail';
+import AddReview from './pages/User/AddReview';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/room/:rid" element={<RoomDetail />} />
+        <Route path="/review/:email/:rid" element={<AddReview />} />
         <Route path="/dashboard" element={<PrivateRoute />} >
           <Route path="user" element={<Dashboard />} />
           <Route path="user/userroom" element={<UserRoom />} />

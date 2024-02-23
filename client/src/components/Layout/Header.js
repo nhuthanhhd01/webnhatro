@@ -43,7 +43,7 @@ function Header() {
           </li>
         </ul>
 
-        <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+        <div className="hidden lg:flex lg:flex-1 lg:justify-end z-40">
           {!auth?.user ? (
             <>
               <div className="nav-item">

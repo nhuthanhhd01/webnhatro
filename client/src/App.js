@@ -17,6 +17,7 @@ import UpdateRoom from './pages/User/UpdateRoom';
 import RoomDetail from './pages/RoomDetail';
 import AddReview from './pages/User/AddReview';
 import FilterResult from './pages/FilterResult';
+import ChangeInformation from './pages/User/ChangeInformation';
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path="user/userinfo" element={<UserInfo />} />
           <Route path="user/newroom" element={<NewRoom />} />
           <Route path="user/update-room/:rid" element={<UpdateRoom />} />
+          <Route path="/user/change-info" element={<ChangeInformation />} />
         </Route>
         <Route path="/dashboard" element={<AdminRoute />} >
           <Route path="admin" element={<AdminDashboard />} />

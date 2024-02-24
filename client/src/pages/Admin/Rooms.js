@@ -3,8 +3,10 @@ import Layout from '../../components/Layout/Layout'
 import AdminMenu from '../../components/Layout/AdminMenu'
 import { Outlet } from 'react-router-dom'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 function Rooms() {
+  const navigate = useNavigate()
   const [rooms, setRooms] = useState([])
 
   const getAllRooms = async () => {
@@ -22,11 +24,15 @@ function Rooms() {
     console.log(rooms)
   }, [])
 
+  const handleDelete = () => (
+    console.log('delete')
+  )
+
   return (
     <Layout>
       <div className='flex flex-row bg-neutral-100 h-screen w-screen overflow-hidden'>
         <AdminMenu />
-        <div className='p-4 w-4/6'>
+        <div className='p-4 w-5/6'>
           <div className='p-5 h-screen'>
             <h1 className='text-xl mb-2'>Danh sách phòng trọ</h1>
 
@@ -57,6 +63,20 @@ function Rooms() {
                     <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>{room.elecPrice}</td>
                     <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>
                       <span className='p-1.5 text-xs font-medium uppercase tracking-wider text-yellow-800 bg-yellow-200 rounded-lg bg-opacity-50'>Active</span>
+                    </td>
+                    <td className='p-3 text-sm text-gray-700 whitespace-nowrap'>
+                      <button
+                        className='p-1.5 text-xs font-medium tracking-wider text-white bg-[#28a745] hover:bg-[#218838] rounded-lg  mr-3'
+                        onClick={() => navigate(`/dashboard/user/update-room/${room._id}`)}
+                      >
+                        Sửa
+                      </button>
+                      <button
+                        className='p-1.5 text-xs font-medium  tracking-wider text-white bg-[#dc3545] hover:bg-[#c82333] rounded-lg '
+                        onClick={() => handleDelete(room._id)}
+                      >
+                        Xóa
+                      </button>
                     </td>
                   </tr>
                 ))}

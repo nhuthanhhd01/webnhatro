@@ -1,9 +1,36 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Layout from '../../components/Layout/Layout'
 import AdminMenu from '../../components/Layout/AdminMenu'
 import { Outlet } from 'react-router-dom'
+import axios from 'axios'
 
 function AdminDashboard() {
+    const [rooms, setRooms] = useState([])
+    const [users, setUsers] = useState([]);
+
+  const getAllRooms = async () => {
+    try {
+      const { data } = await axios.get("/api/room/get-rooms")
+      setRooms(data)
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const getAllUsers = async () => {
+    try {
+      const { data } = await axios.get("/api/user/alluser");
+      setUsers(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  //method
+  useEffect(() => {
+    getAllRooms();
+    getAllUsers();
+  }, [])
   return (
     <Layout>
       <div className='flex flex-row bg-neutral-100 h-screen w-screen overflow-hidden'>
@@ -38,7 +65,7 @@ function AdminDashboard() {
                                     </div>
     
                                     <div class="mx-5">
-                                        <h4 class="text-2xl font-semibold text-gray-700">8,282</h4>
+                                        <h4 class="text-2xl font-semibold text-gray-700">{users.length}</h4>
                                         <div class="text-gray-500">Số lượng người dùng</div>
                                     </div>
                                 </div>
@@ -62,7 +89,7 @@ function AdminDashboard() {
                                     </div>
     
                                     <div class="mx-5">
-                                        <h4 class="text-2xl font-semibold text-gray-700">200,521</h4>
+                                        <h4 class="text-2xl font-semibold text-gray-700">{rooms.length}</h4>
                                         <div class="text-gray-500">Số lượng phòng trọ</div>
                                     </div>
                                 </div>
@@ -76,110 +103,7 @@ function AdminDashboard() {
     
                     </div>
     
-                    <div class="flex flex-col mt-8">
-                        <div class="py-2 -my-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
-                            <div
-                                class="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 shadow sm:rounded-lg">
-                                <table class="min-w-full">
-                                    <thead>
-                                        <tr>
-                                            <th
-                                                class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                                                Tên</th>
-                                            <th
-                                                class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                                                Nghề nghiệp</th>
-                                            <th
-                                                class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                                                Trạng thái</th>
-                                            <th
-                                                class="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 uppercase border-b border-gray-200 bg-gray-50">
-                                                Vai trò</th>
-                                            <th class="px-6 py-3 border-b border-gray-200 bg-gray-50"></th>
-                                        </tr>
-                                    </thead>
-    
-                                    <tbody class="bg-white">
-                                        <tr>
-                                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                <div class="flex items-center">
-                                                    <div class="flex-shrink-0 w-10 h-10">
-                                                        <img class="w-10 h-10 rounded-full"
-                                                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
-                                                            alt=""/>
-                                                    </div>
-    
-                                                    <div class="ml-4">
-                                                        <div class="text-sm font-medium leading-5 text-gray-900">John Doe
-                                                        </div>
-                                                        <div class="text-sm leading-5 text-gray-500">john@example.com</div>
-                                                    </div>
-                                                </div>
-                                            </td>
-    
-                                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                <div class="text-sm leading-5 text-gray-900">Software Engineer</div>
-                                                <div class="text-sm leading-5 text-gray-500">Web dev</div>
-                                            </td>
-    
-                                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                <span
-                                                    class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">Active</span>
-                                            </td>
-    
-                                            <td
-                                                class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
-                                                Owner</td>
-    
-                                            <td
-                                                class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-b border-gray-200">
-                                                <a href="#" class="text-indigo-600 hover:text-indigo-900">Sửa</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                <div class="flex items-center">
-                                                    <div class="flex-shrink-0 w-10 h-10">
-                                                        <img class="w-10 h-10 rounded-full"
-                                                            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=256&amp;q=80"
-                                                            alt=""/>
-                                                    </div>
-    
-                                                    <div class="ml-4">
-                                                        <div class="text-sm font-medium leading-5 text-gray-900">John Doe
-                                                        </div>
-                                                        <div class="text-sm leading-5 text-gray-500">john@example.com</div>
-                                                    </div>
-                                                </div>
-                                            </td>
-    
-                                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                <div class="text-sm leading-5 text-gray-900">Software Engineer</div>
-                                                <div class="text-sm leading-5 text-gray-500">Web dev</div>
-                                            </td>
-    
-                                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200">
-                                                <span
-                                                    class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full">Active</span>
-                                            </td>
-    
-                                            <td
-                                                class="px-6 py-4 text-sm leading-5 text-gray-500 whitespace-no-wrap border-b border-gray-200">
-                                                Owner</td>
-    
-                                            <td
-                                                class="px-6 py-4 text-sm font-medium leading-5 text-right whitespace-no-wrap border-b border-gray-200">
-                                                <a href="#" class="text-indigo-600 hover:text-indigo-900">Sửa</a>
-                                            </td>
-                                        </tr>
-                                        
-                                        
-                                        
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
+                    
                 </div>
           <div><Outlet /></div>
 

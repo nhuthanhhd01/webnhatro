@@ -30,6 +30,7 @@ function RoomDetail() {
   const [ownerName, setOwnerName] = useState()
   const [ownerPhone, setOwnerPhone] = useState()
   const [ownerEmail, setOwnerEmail] = useState()
+  const [fbLink, setOwnerFbLink] = useState()
 
   //method
   useEffect(() => {
@@ -49,6 +50,7 @@ function RoomDetail() {
         console.log(email)
         setOwnerName(roomOwner.name)
         setOwnerPhone(roomOwner.phone)
+        setOwnerFbLink(roomOwner.fbLink)
         setOwnerEmail(email)
         const reviewsData = await axios.get(
           `/api/room/get-reviews/${email}/${rid}`
@@ -138,15 +140,22 @@ function RoomDetail() {
                 <p className='tracking-tight font-sans text-xl ml-2 mb-2 font-normal'>Liên hệ ngay bằng các cách liên hệ dưới đây:</p>
                 <div className='flex ml-2'>
                   <div className='flex mb-1 mr-4'>
-                    <FaFacebook size={30} color='#1877F2' className='mt-1.5'/>
+                    <a href={fbLink}>
+                      <FaFacebook size={30} color='#1877F2' className='mt-1.5'/>
+                    </a>
                   </div>
 
                   <div className='flex mb-4 mr-4'>
-                    <BsTelephoneFill size={30} className='mt-1.5'/>
+                    <a href={`tel:${ownerPhone}`}>
+                      <BsTelephoneFill size={30} className='mt-1.5'/>
+                    </a>
                   </div>
 
                   <div className='flex mb-4 mr-4'>
+                  <a href={`mailto:${ownerEmail}`}>
                     <MdEmail size={32} color='#0090D2' className='mt-1.5'/>
+                    </a>
+                    
                   </div>
 
                   <div className='flex mb-4'>

@@ -120,6 +120,7 @@ export const getRoomOwnerController = async (req, res) => {
             email: data.email,
             phone: data.phone,
             address: data.address,
+            fbLink: data.fbLink
         }
         res.status(200).json(userData)
     } catch (error) {

@@ -98,7 +98,7 @@ function RoomDetail() {
 
   return (
     <Layout>
-        <div className='w-[1200px] mx-auto mt-10 flex items-start'>
+        <div className='w-[1200px] mx-auto mt-10 mb-5 flex items-start'>
             <div className='mr-5 w-[46%]'>
                 <img className='h-[550px] w-full object-cover' src={`/api/room/product-photo/${rid}`} alt="" />
             </div>
@@ -166,7 +166,7 @@ function RoomDetail() {
 
           {/* List Reviews */}
           {reviews.map((review) => (
-            <div class="flex items-center space-x-2">
+            <div class="flex items-center space-x-2 mb-3">
               <div class="flex flex-shrink-0 self-start cursor-pointer">
                 <img src="https://t4.ftcdn.net/jpg/02/29/75/83/360_F_229758328_7x8jwCwjtBMmC6rgFzLFhZoEpLobB6L8.jpg" alt="" class="h-12 w-12 object-fill rounded-full"/>
               </div>

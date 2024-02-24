@@ -5,13 +5,19 @@ import RoomCard from '../components/RoomCard';
 import { districts } from '../lib/consts/feconst';
 import axios from 'axios';
 import classNames from 'classnames';
+import { useNavigate } from 'react-router-dom';
 
 const linkNavPage = 'mx-4 text-sm sm:text-lg font-medium cursor-pointer hover:text-[#0FB45F] text-blue-600'
 
 function HomePage() {
+  const navigate = useNavigate()
   const [auth, setAuth] = useAuth();
   const [page, setPage] = useState(1);
   const [rooms, setRooms] = useState([])
+
+  const [district, setDistrict] = useState()
+  const [option1, setOption1] = useState(0)
+  const [option2, setOption2] = useState(0)
 
   const getAllRooms = async () => {
     try {
@@ -22,48 +28,15 @@ function HomePage() {
     }
   }
 
-  //method
+  //method  
   useEffect(() => {
     getAllRooms();
   }, [page])
-  // const rooms = [
-  //   {
-  //     id: 1,
-  //     title: "Phòng trọ Thanh Xuân",
-  //     address: "14 Thanh Xuân Trung",
-  //     price: "4000000",
-  //     waterPrice: "30000",
-  //     elecPrice: "4000",
-  //     description: "Phòng trọ mới siêu hiện đại"
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Phòng trọ Hoàng Mai",
-  //     address: "88/61 Giáp Nhị",
-  //     price: "3500000",
-  //     waterPrice: "30000",
-  //     elecPrice: "4000",
-  //     description: "Phòng trọ đẹp giá hợp lý"
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "Phòng trọ Ba Đình",
-  //     address: "Giáp Nhị",
-  //     price: "4800000",
-  //     waterPrice: "30000",
-  //     elecPrice: "4500",
-  //     description: "Phòng trọ mới, full đồ"
-  //   },
-  //   {
-  //     id: 4,
-  //     title: "Phòng trọ Hà Đông",
-  //     address: "2 Quang Trung",
-  //     price: "2800000",
-  //     waterPrice: "30000",
-  //     elecPrice: "4000",
-  //     description: "Phòng trọ giá rẻ"
-  //   }
-  // ]
+
+  // handle filter submit
+  const handleSubmitSearch = () => {
+    navigate(`/filter-room/${district}/${option1}/${option2}`)
+  }
 
   return (
     <Layout title="Trang chủ">
@@ -82,37 +55,53 @@ function HomePage() {
         </div>
 
         <div className='absolute bottom-52 left-60 bg-white py-[35px] px-[30px] w-[900px] ml-[50px]'>
-          <form className='flex place-content-between'>
-            <select id="countries" class="bg-gray-50 border w-[27%] border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+          <div className='flex place-content-between'>
+            <select 
+              class="bg-gray-50 border w-[27%] border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              onChange={(e) => {
+                setDistrict(e.target.value)
+                console.log(e.target.value)
+              }}
+            >
               <option selected>Chọn quận</option>
               {districts.map((district) => (
-                <option>{district}</option>
+                <option value={district}>{district}</option>
               ))}
               {/* <option value="US">United States</option> */}
             </select>
 
-            <select id="countries" class="bg-gray-50 border w-[27%] border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-              <option selected>Chọn giá trị phòng</option>
-              <option>Dưới 1 triệu 5</option> 
-              <option>Từ 1 triệu 5 đến 2 Triệu 5</option> 
-              <option>Từ 1 triệu 5 đến 2 Triệu 5</option> 
-              <option>Từ 2 triệu 5 đến 3 Triệu 5</option> 
-              <option>Từ 3 triệu 5 đến 4 Triệu 5</option> 
-              <option>Từ 4 triệu 5 trở lên</option> 
+            <select 
+              onChange={(e) => {
+                setOption1(e.target.value)
+                console.log(e.target.value)
+              }}
+              class="bg-gray-50 border w-[27%] border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            >
+              <option selected value='0'>Chọn giá trị phòng</option>
+              <option value='1'>Dưới 3 Triệu 5</option> 
+              <option value='2'>Từ 3 triệu 5 đến 4 Triệu 5</option> 
+              <option value='3'>Từ 4 triệu 5 trở lên</option> 
             </select>
 
-            <select id="countries" class="bg-gray-50 border w-[27%] border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-              <option selected>Chọn giá điện</option>
-              <option>Dưới 1 triệu 5</option> 
-              <option>Từ 1 triệu 5 đến 2 Triệu 5</option> 
-              <option>Từ 1 triệu 5 đến 2 Triệu 5</option> 
-              <option>Từ 2 triệu 5 đến 3 Triệu 5</option> 
-              <option>Từ 3 triệu 5 đến 4 Triệu 5</option> 
-              <option>Từ 4 triệu 5 trở lên</option> 
+            <select 
+              onChange={(e) => {
+                setOption2(e.target.value)
+                console.log(e.target.value)
+              }}
+              class="bg-gray-50 border w-[27%] border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+            >
+              <option selected value='0'>Chọn giá điện</option>
+              <option value='1'>Từ 3000 đến 4000 (/1 số)</option> 
+              <option value='2'>Từ 4000 trở lên (/1 số)</option> 
             </select>
 
-            <button className='bg-[#0FB45F] text-white py-[10px] px-[20px] text-sm rounded-[50px] uppercase font-medium'>Search</button>
-          </form>
+            <button 
+              className='bg-[#0FB45F] text-white py-[10px] px-[20px] text-sm rounded-[50px] uppercase font-medium'
+              onClick={handleSubmitSearch}
+            >
+              Search
+            </button>
+          </div>
         </div>
       </div>
 

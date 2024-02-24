@@ -1,9 +1,28 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import Layout from '../../components/Layout/Layout'
 import { Outlet } from 'react-router-dom'
 import UserMenu from '../../components/Layout/UserMenu'
+import axios from 'axios'
+import { useAuth } from '../../context/auth'
 
 function Dashboard() {
+    const [count, setCount] = useState()
+    const [auth, setAuth] = useAuth()
+
+    const getAllRooms = async () => {
+        try {
+          const { data } = await axios.get(`/api/room/user-list-room/${auth.user._id}`)
+          let tmp = data.rooms.length
+          setCount(tmp)
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    
+      //method
+      useEffect(() => {
+        getAllRooms();
+      }, [count])
   return (
     <Layout title={"Dashboard"}>
       <div className='flex flex-row bg-neutral-100 h-screen w-screen overflow-hidden'>
@@ -41,7 +60,7 @@ function Dashboard() {
                                     </div>
     
                                     <div class="mx-5">
-                                        <h4 class="text-2xl font-semibold text-gray-700">8,282</h4>
+                                        <h4 class="text-2xl font-semibold text-gray-700">{count}</h4>
                                         <div class="text-gray-500">Số người đang thuê phòng</div>
                                     </div>
                                 </div>
@@ -65,7 +84,7 @@ function Dashboard() {
                                     </div>
     
                                     <div class="mx-5">
-                                        <h4 class="text-2xl font-semibold text-gray-700">200,521</h4>
+                                        <h4 class="text-2xl font-semibold text-gray-700">{count}</h4>
                                         <div class="text-gray-500">Số lượng phòng trọ đã đăng</div>
                                     </div>
                                 </div>

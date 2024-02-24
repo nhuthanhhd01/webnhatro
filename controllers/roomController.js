@@ -402,3 +402,70 @@ export const productPhotoController = async (req, res) => {
       });
     }
   };
+
+// get list room after filter
+ export const productFilterController = async (req, res) => {
+    try {
+        const district = req.params.district
+        const option1 = req.params.option1
+        const option2 = req.params.option2
+        const listRooms = []
+        const districtRooms = []
+        const priceRooms = []
+        const resultRooms = []
+        try {
+            await userModel.find({}).then(function(users){
+                users.forEach(user => {
+                    const room = user.rooms;
+                    listRooms.push(...room);
+                })
+                for ( let i = 0; i < listRooms.length; i++ ) {
+                    if (listRooms[i].tag === district) {
+                        districtRooms.push(listRooms[i])
+                    };
+                }
+                for ( let i = 0; i < districtRooms.length; i++ ) {
+                    if (option1 == 0) {
+                        priceRooms.push(districtRooms[i]);
+                    } else if (option1 == 1) {
+                        if (districtRooms[i].price < 3500000) {
+                            priceRooms.push(districtRooms[i])
+                        };
+                    } else if (option1 == 2) {
+                        if ((districtRooms[i].price >= 3500000) && (districtRooms[i].price < 4500000)) {
+                            priceRooms.push(districtRooms[i])
+                        };
+                    } else if (option1 == 3) {
+                        if (districtRooms[i].price >= 4500000) {
+                            priceRooms.push(districtRooms[i])
+                        };
+                    }
+                }
+                for ( let i = 0; i < priceRooms.length; i++ ) {
+                    if (option2 == 0) {
+                        resultRooms.push(priceRooms[i])
+                    } else if (option2 == 1) {
+                        if ((priceRooms[i].price >= 3000) && (priceRooms[i].price <= 4000)) {
+                            resultRooms.push(priceRooms[i])
+                        };
+                    } else if (option2 == 2) {
+                        if (priceRooms[i].price > 4000) {
+                            resultRooms.push(priceRooms[i])
+                        };
+                    } 
+                }
+
+                res.status(200).send(resultRooms)
+            });
+        } catch (error) {
+            console.log(error)
+        }
+    } catch (error) {
+      console.log(error);
+      res.status(500).send({
+        success: false,
+        message: "Erorr while add review to room",
+        error,
+      });
+    }
+  };

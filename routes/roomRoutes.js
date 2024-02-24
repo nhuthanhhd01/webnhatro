@@ -10,6 +10,7 @@ import {
     getRoomsController,
     getSingleRoomController, 
     getUserListRoomController, 
+    productFilterController, 
     productPhotoController, 
     roomListController,
     updateRoomController,
@@ -45,6 +46,8 @@ router.get("/get-room-detail/:rid", getRoomController)
 router.get("/get-room-owner/:rid", getRoomOwnerController)
 // get photo
 router.get("/product-photo/:rid", productPhotoController);
+// get filter room
+router.get("/product-filter/:district/:option1/:option2", productFilterController);
 
 // REVIEWS
 // Add review

@@ -11,12 +11,12 @@ export const createRoomController = async (req, res) => {
             return res.status(500).send({ error: "Title is Required" });
             case !address:
             return res.status(500).send({ error: "Address is Required" });
-            case !price:
-            return res.status(500).send({ error: "Price is Required" });
-            case !waterPrice:
-            return res.status(500).send({ error: "Water Price is Required" });
-            case !elecPrice:
-            return res.status(500).send({ error: "Electric Price is Required" });
+            case !price && price <= 0:
+            return res.status(500).send({ error: "Price is Error" });
+            case !waterPrice && waterPrice <= 0:
+            return res.status(500).send({ error: "Water Price is Error" });
+            case !elecPrice && elecPrice <= 0:
+            return res.status(500).send({ error: "Electric Price is Error" });
             case !description:
             return res.status(500).send({ error: "Description is Required" });
             case photo && photo.size > 1000000:
